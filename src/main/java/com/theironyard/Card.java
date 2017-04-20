@@ -13,10 +13,15 @@ public class Card {
         this.rank = rank;
         this.suit = suit;
     }
+    public String getImgName(){
+        String name =  this.rank.toString().toLowerCase()+"_of_"+this.suit.toString().toLowerCase();
+        return name;
+    }
     public boolean flip(){
         return !faceUp;
     }
-    public Suit getSuit() {
+    public Suit getSuit()
+    {
         return suit;
     }
     public Rank getRank() {

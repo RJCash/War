@@ -1,5 +1,7 @@
 package com.theironyard;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.Random;
@@ -12,8 +14,14 @@ public class WarRepository {
     Random randWithSeed = new Random(50);
     Random rand = new Random();
     Deck deck = new Deck();
+    @Autowired
+    JdbcTemplate template;
 
-
+    public void addHighScore(Integer score, String name){
+        template.update("INSERT INTO highscore(highscore, personname) " +
+                "VALUES(?,?) ",
+                new Object[]{score,name});
+    }
 
     public Card PlayerPlay(Integer choice,Person player1){
         player1.setHand(deck.getHand());

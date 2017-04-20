@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,12 +25,11 @@ public class MyController {
     WarRepository repo;
 
     @GetMapping("/")
-    public String home(){
-
+    public String home(Model model){
         return "index";
     }
-   @GetMapping("/CreateHand")
-    public String hand(Model model, ArrayList<Card> playerHand, ArrayList<Card> cPUHand){
+    @GetMapping("/game")
+    public String game(Model model,ArrayList<Card> playerHand, ArrayList<Card> cPUHand){
         player1.setHand(deck.getHand());
         CPU.setHand(deck.getHand());
         playerHand = player1.getHand();
@@ -37,13 +37,24 @@ public class MyController {
         System.out.println(playerHand);
         model.addAttribute("playerHand", playerHand);
         model.addAttribute("cpuHand", cPUHand);
-        return "redirect:/";
+        return "index";
+    }
+   @GetMapping("/CreateHand")
+    public String hand(Model model){
+//        player1.setHand(deck.getHand());
+//        CPU.setHand(deck.getHand());
+//        playerHand = player1.getHand();
+//        cPUHand = CPU.getHand();
+//        System.out.println(playerHand);
+//        model.addAttribute("playerHand", playerHand);
+//        model.addAttribute("cpuHand", cPUHand);
+        return "redirect:/game";
     }
     @GetMapping("/play")
-    public String play(Model model, Integer choice){
+    public String play(Model model, @RequestParam(defaultValue = "") Integer choice){
         model.addAttribute("playerCard",repo.PlayerPlay(choice, player1));
         model.addAttribute("CpuCard", repo.CPUplays(CPU));
         model.addAttribute("choice", choice);
-        return "redirect:/";
+        return "index";
     }
 }
