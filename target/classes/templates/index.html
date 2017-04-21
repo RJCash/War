@@ -1,33 +1,81 @@
 <!DOCTYPE html>
+
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8"/>
     <title>Title</title>
     <link rel="stylesheet" href="../static/css/styles.css" th:href="@{styles.css}"/>
-
+    <link href="https://fonts.googleapis.com/css?family=Black+Ops+One" rel="stylesheet"/>
 </head>
 <body>
-<form action="index.html" th:action="@{/CreateHand}">
-
-    <button>Deal</button>
-</form>
-    <table th:each="card,iterationStatus: ${playerHand}" class="table1">
-        <tr><td>
-            <a th:href="@{'/play?choice=' +${iterationStatus.count}}"><img src="" width="100px" height="100px" th:src="@{'/PlayingCards/PNG-cards-1.3/'+${card.getImgName()}+'.png'}"/>
+<h2 class="header">Choose a Card</h2>
+<br/>
+<br/>
+<table class="CPURow" th:each="card: ${cpuHand}">
+    <tr>
+        <td>
+            <img src="" class="img" width="100px" hight="100px"
+                 th:src="@{'/PlayingCards/PNG-cards-1.3/black_joker.png'}"/>
+        </td>
+    </tr>
+</table>
+<br/>
+<table class="playerRow" th:each="card,iterationStatus: ${playerHand}">
+    <tr>
+        <td>
+            <a th:href="@{'/play?choice=' +${iterationStatus.count}}"><img src="" width="100px" height="100px"
+                                                                           th:src="@{'/PlayingCards/PNG-cards-1.3/'+${card.getImgName()}+'.png'}"/>
             </a>
         </td>
-            <td></td>
-        </tr>
-    </table>
-<br></br>
-    <table th:each="card: ${cpuHand}" class="table2">
-        <tr> <td>
-         <img src="" class="img" width="100px" hight="100px" th:src="@{'/PlayingCards/PNG-cards-1.3/black_joker.png'}"/>
-            </td>
-            <td></td></tr>
-    </table>
+    </tr>
+</table>
+<br/>
 <img th:src="@{warGame.png}" style='position:fixed;top:0px;left:0px;width:100%;height:100%;z-index:-1;'/>
+<br/>
+<div class="text" th:text="'Player points: '+${playerPoints}"></div>
+<br/>
+<div class="text" th:text="'CPU points: '+${cpuPoints}"></div>
+<br/>
+<div class="text" th:text="'Deck size: '+${deckSize}"></div>
+
+<div th:switch="${choice}">
+    <a th:href="@{/display}"> <img width="100px" height="100px" th:case="'1'"
+                                   th:src="@{'/PlayingCards/PNG-cards-1.3/'+${playerCard.getImgName()}+'.png'}"/>
+    </a>
+    <a th:href="@{/display}"> <img width="100px" height="100px" th:case="'2'"
+                                   th:src="@{'/PlayingCards/PNG-cards-1.3/'+${playerCard.getImgName()}+'.png'}"/>
+    </a>
+    <a th:href="@{/display}"> <img width="100px" height="100px" th:case="'3'"
+                                   th:src="@{'/PlayingCards/PNG-cards-1.3/'+${playerCard.getImgName()}+'.png'}"/>
+    </a>
+    <a th:href="@{/display}"> <img width="100px" height="100px" th:case="'4'"
+                                   th:src="@{'/PlayingCards/PNG-cards-1.3/'+${playerCard.getImgName()}+'.png'}"/>
+    </a>
+    <a th:href="@{/display}"> <img width="100px" height="100px" th:case="'5'"
+                                   th:src="@{'/PlayingCards/PNG-cards-1.3/'+${playerCard.getImgName()}+'.png'}"/>
+    </a>
+    <a th:href="@{/display}"> <img width="100px" height="100px" th:case="'6'"
+                                   th:src="@{'/PlayingCards/PNG-cards-1.3/'+${playerCard.getImgName()}+'.png'}"/>
+    </a>
+    <p th:case="*"></p></div>
+<div th:switch="${choice}">
+    <img width="100px" height="100px" th:case="'1'"
+         th:src="@{'/PlayingCards/PNG-cards-1.3/'+${cpuCard.getImgName()}+'.png'}"/>
+    <img width="100px" height="100px" th:case="'2'"
+         th:src="@{'/PlayingCards/PNG-cards-1.3/'+${cpuCard.getImgName()}+'.png'}"/>
+    <img width="100px" height="100px" th:case="'3'"
+         th:src="@{'/PlayingCards/PNG-cards-1.3/'+${cpuCard.getImgName()}+'.png'}"/>
+    <img width="100px" height="100px" th:case="'4'"
+         th:src="@{'/PlayingCards/PNG-cards-1.3/'+${cpuCard.getImgName()}+'.png'}"/>
+    <img width="100px" height="100px" th:case="'5'"
+         th:src="@{'/PlayingCards/PNG-cards-1.3/'+${cpuCard.getImgName()}+'.png'}"/>
+    <img width="100px" height="100px" th:case="'6'"
+         th:src="@{'/PlayingCards/PNG-cards-1.3/'+${cpuCard.getImgName()}+'.png'}"/>
+    <p th:case="*"></p>
+</div>
+
 </body>
+
 
 </html>

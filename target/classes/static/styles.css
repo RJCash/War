@@ -1,10 +1,20 @@
-
+*{
+    font-family: 'Black Ops One', cursive;
+}
 .table1{
     margin-top: 0;
 }
 .table2{
     margin-top: 0;
     margin-right: 0;
+}
+.header{
+    color: white;
+    border-radius: 5%;
+    border: solid black 3px;
+    display:inline-block;
+    background-color: darkolivegreen;
+    letter-spacing: .15em;
 }
 .maybe {
     background: url("../static/blackJack.jpg") no-repeat center center fixed;
@@ -17,4 +27,24 @@
 .img {
     max-width:100%;
     height:auto;
+}
+.playerRow{
+    display: inline;
+    text-align: center;
+}
+.CPURow{
+    display: inline;
+    text-align: center;
+}
+.playerCard{
+    max-width:100%;
+    height:auto;
+}
+.text{
+    color: white;
+    border-radius: 5%;
+    border: solid black 3px;
+    display:inline-block;
+    background-color: darkolivegreen;
+    letter-spacing: .15em;
 }

@@ -8,53 +8,85 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Random;
 /**
  * Created by rickiecashwell on 4/18/17.
  */
+
 @Controller
 public class MyController {
     Person player1 = new Person();
     Person CPU = new Person();
-    int yourpoints=0;
-    int CPUPoints=0;
-    Deck deck = new Deck();
+    Deck deck;
     List<Card> playerHand = new ArrayList<>();
     List<Card> cPUHand = new ArrayList<>();
-    @Autowired
+    Integer playerPoint = 0;
+    Integer cpuPoint = 0;
+    Random rand = new Random();
     WarRepository repo;
 
+    @Autowired
+    public MyController(WarRepository repo){
+        this.repo = repo;
+        deck = repo.getDeck();
+    }
     @GetMapping("/")
     public String home(Model model){
-        return "index";
-    }
-    @GetMapping("/game")
-    public String game(Model model,ArrayList<Card> playerHand, ArrayList<Card> cPUHand){
         player1.setHand(deck.getHand());
         CPU.setHand(deck.getHand());
         playerHand = player1.getHand();
         cPUHand = CPU.getHand();
-        System.out.println(playerHand);
+        this.playerHand = playerHand;
+        this.cPUHand = cPUHand;
+        model.addAttribute("deckSize",deck.getDeck().size());
+        model.addAttribute("playerPoints",playerPoint);
+        model.addAttribute("cpuPoints", cpuPoint);
         model.addAttribute("playerHand", playerHand);
         model.addAttribute("cpuHand", cPUHand);
         return "index";
     }
-   @GetMapping("/CreateHand")
-    public String hand(Model model){
-//        player1.setHand(deck.getHand());
-//        CPU.setHand(deck.getHand());
-//        playerHand = player1.getHand();
-//        cPUHand = CPU.getHand();
-//        System.out.println(playerHand);
-//        model.addAttribute("playerHand", playerHand);
-//        model.addAttribute("cpuHand", cPUHand);
-        return "redirect:/game";
+    @GetMapping("/display")
+    public String game(Model model){
+        System.out.println(playerHand);
+        model.addAttribute("deckSize",deck.getDeck().size());
+        model.addAttribute("playerPoints",playerPoint);
+        model.addAttribute("cpuPoints", cpuPoint);
+        model.addAttribute("playerHand", playerHand);
+        model.addAttribute("cpuHand", cPUHand);
+        return "index";
     }
     @GetMapping("/play")
     public String play(Model model, @RequestParam(defaultValue = "") Integer choice){
-        model.addAttribute("playerCard",repo.PlayerPlay(choice, player1));
-        model.addAttribute("CpuCard", repo.CPUplays(CPU));
+        Card playerDealtCard = repo.PlayerPlay(choice, player1);
+        Card cpuDealtCard = repo.CPUplays(CPU);
+        if(playerPoint >= 5){
+            return "redirect:/winner";
+        }
+        if(cpuPoint >=5){
+            return "redirect:/loser";
+        }
+        if(playerDealtCard.getRank().getValue() > cpuDealtCard.getRank().getValue()){
+            playerPoint++;
+        }else
+        if(playerDealtCard.getRank().getValue() < cpuDealtCard.getRank().getValue()){
+            cpuPoint++;
+        }
+        model.addAttribute("deckSize",deck.getDeck().size());
+        model.addAttribute("playerPoints",playerPoint);
+        model.addAttribute("cpuPoints", cpuPoint);
+        model.addAttribute("playerCard", playerDealtCard);
+        model.addAttribute("cpuCard", cpuDealtCard);
         model.addAttribute("choice", choice);
         return "index";
+    }
+    @GetMapping("/winner")
+    public String winner(Model model){
+        model.addAttribute("win", "you win");
+        return "winner";
+    }
+    @GetMapping("/loser")
+    public String loser(Model model){
+        model.addAttribute("lose", "you lose");
+        return "loser";
     }
 }
