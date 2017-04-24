@@ -13,8 +13,7 @@ public class WarRepository {
     Random randWithSeed = new Random(50);
     Random rand = new Random();
     Deck deck = new Deck();
-    Integer playerPoint = 0;
-    Integer cpuPoint = 0;
+
     @Autowired
     JdbcTemplate template;
 
@@ -45,14 +44,7 @@ public class WarRepository {
             return dealtCard;
             }
 
-            public Integer getPoints(Card playerCard, Person CPU){
-
-
-                return null;
-            }
-
-
-            public Card CPUplays(Person CPU){
+    public Card CPUplays(Person CPU){
         //The CPU logic is the same as the player
         //CPU.setHand(deck.getHand());
         int dealtCardChoice2 = rand.nextInt(CPU.getHand().size());

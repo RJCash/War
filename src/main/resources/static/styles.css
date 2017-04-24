@@ -48,3 +48,6 @@
     background-color: darkolivegreen;
     letter-spacing: .15em;
 }
+.buttons{
+    display: inline;
+}

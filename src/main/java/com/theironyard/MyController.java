@@ -36,6 +36,8 @@ public class MyController {
         CPU.setHand(deck.getHand());
         playerHand = player1.getHand();
         cPUHand = CPU.getHand();
+        playerPoint = 0;
+        cpuPoint = 0;
         this.playerHand = playerHand;
         this.cPUHand = cPUHand;
         model.addAttribute("deckSize",deck.getDeck().size());
@@ -59,10 +61,10 @@ public class MyController {
     public String play(Model model, @RequestParam(defaultValue = "") Integer choice){
         Card playerDealtCard = repo.PlayerPlay(choice, player1);
         Card cpuDealtCard = repo.CPUplays(CPU);
-        if(playerPoint >= 5){
+        if(playerPoint >= 9){
             return "redirect:/winner";
         }
-        if(cpuPoint >=5){
+        if(cpuPoint >= 9){
             return "redirect:/loser";
         }
         if(playerDealtCard.getRank().getValue() > cpuDealtCard.getRank().getValue()){
@@ -70,6 +72,10 @@ public class MyController {
         }else
         if(playerDealtCard.getRank().getValue() < cpuDealtCard.getRank().getValue()){
             cpuPoint++;
+        }
+        if(playerDealtCard.getRank().getValue() == cpuDealtCard.getRank().getValue()){
+            playerPoint += rand.nextInt(3);
+            cpuPoint += rand.nextInt(3);
         }
         model.addAttribute("deckSize",deck.getDeck().size());
         model.addAttribute("playerPoints",playerPoint);
@@ -80,13 +86,15 @@ public class MyController {
         return "index";
     }
     @GetMapping("/winner")
-    public String winner(Model model){
-        model.addAttribute("win", "you win");
+    public String winner(){
+        deck = new Deck();
+        repo.setDeck(deck);
         return "winner";
     }
     @GetMapping("/loser")
-    public String loser(Model model){
-        model.addAttribute("lose", "you lose");
+    public String loser(){
+        deck = new Deck();
+        repo.setDeck(deck);
         return "loser";
     }
 }
