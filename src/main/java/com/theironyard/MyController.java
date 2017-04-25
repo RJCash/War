@@ -32,6 +32,10 @@ public class MyController {
     }
     @GetMapping("/")
     public String home(Model model){
+        if(deck.getDeck().size() < 40){
+            deck = new Deck();
+            repo.setDeck(deck);
+        }
         player1.setHand(deck.getHand());
         CPU.setHand(deck.getHand());
         playerHand = player1.getHand();

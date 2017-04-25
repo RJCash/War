@@ -51,3 +51,6 @@
 .buttons{
     display: inline;
 }
+.playerImg{
+    display: none;
+}
